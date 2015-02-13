@@ -44,13 +44,13 @@ shinyServer(function(input,output,session){
     
     strInput <- unlist(strsplit(strInput," "))
     
-    if(strInput[1] == "alter"){
+    if(tolower(strInput[1]) == "alter"){
            funcAlter(strInput[2],as.double(strInput[3]))
     }
-    else if(strInput[1] == "add"){
+    else if(tolower(strInput[1]) == "add"){
            funcAdd(strInput[2],as.double(strInput[3]))
     }
-    else if(strInput[1] == "delete"){
+    else if(tolower(strInput[1]) == "delete"){
            funcDelete(strInput[2])
     }   
     
