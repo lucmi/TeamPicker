@@ -2,7 +2,6 @@ library(shiny)
 
 #players <- read.csv("Data/players.csv")
 
-shinyUI(
   navbarPage( 
     "Basketball Team Picker",
     tabPanel("Pick Team",  
@@ -28,4 +27,4 @@ shinyUI(
                mainPanel(
                  tableOutput("scores")))
     )
-  ))
+  )

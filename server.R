@@ -1,6 +1,6 @@
 library(shiny)
 
-shinyServer(function(input,output,session){
+function(input,output,session){
   
   players <- read.csv("Data/players.csv", stringsAsFactors = F)
   
@@ -79,4 +79,4 @@ shinyServer(function(input,output,session){
 
   observeEvent(input$runQuery,funcChangeData(input$query))
   
-})
+}
