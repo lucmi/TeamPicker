@@ -1,6 +1,6 @@
 library(shiny)
 
-shinyServer(function(input,output,session){
+function(input,output,session){
   
   players <- read.csv("Data/players.csv", stringsAsFactors = F)
   
@@ -38,6 +38,23 @@ shinyServer(function(input,output,session){
     })
   }
   
+  funcAdd <- function(strPlayer,dblScore){
+    if(is.character(strPlayer) && is.double(dblScore)){
+      players <<- rbind(players,data.frame(player=strPlayer,score=dblScore, stringsAsFactors = F))
+    }
+  }
+  
+  funcAlter <- function(strPlayer,dblScore){
+    if(is.character(strPlayer) && is.double(dblScore) && nrow(players[which(tolower(players[,1]) == tolower(strPlayer)),]) > 0)
+      {
+      players[which(tolower(players[,1]) == tolower(strPlayer)),]$score <<- dblScore
+    }
+  }
+  
+  funcDelete <- function(strPlayer){
+    players <<- players[which(players[,1] != strPlayer),]
+  }
+  
   # Function will alter data in the players table based on the input provided in the textboxInput
   # "query". Allows scores to change, and players to be added and deleted.
   funcChangeData <- function(strInput){
@@ -57,26 +74,11 @@ shinyServer(function(input,output,session){
     updateCheckboxGroupInput(session,"available",choices=players[,1])      
     output$scores <- renderTable(players)
     write.csv(players,file="Data/players.csv",quote = F,row.names=F)
-  }
-  
-  funcAdd <- function(strPlayer,dblScore){
-    if(is.character(strPlayer) && is.double(dblScore)){
-      players <<- rbind(players,data.frame(player=strPlayer,score=dblScore, stringsAsFactors = F))
-    }
-  }
-  
-  funcAlter <- function(strPlayer,dblScore){
-    if(is.character(strPlayer) && is.double(dblScore) && nrow(players[which(players[,1] == strPlayer),]) > 0){
-      players[which(players[,1] == strPlayer),]$score <<- dblScore
-    }
-  }
-  
-  funcDelete <- function(strPlayer){
-    players <<- players[which(players[,1] != strPlayer),]
+    updateTextInput(session,"query",value="")
   }
   
   observeEvent(input$makeTeams,funcMakeTeams())
 
   observeEvent(input$runQuery,funcChangeData(input$query))
   
-})
+}
