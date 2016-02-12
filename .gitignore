@@ -1,4 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
-TeamPickerGH.Rproj
+Data
+rsconnect
+TeamPicker.Rproj
+rm.exe.stackdump
